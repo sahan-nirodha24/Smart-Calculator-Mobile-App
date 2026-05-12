@@ -3,26 +3,40 @@ import 'package:math_expressions/math_expressions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../settings/presentation/providers/settings_provider.dart';
 
+enum AngleUnit { deg, rad, grad }
+
 class CalculatorState {
   final String expression;
   final String result;
   final List<String> history;
+  final AngleUnit angleUnit;
+  final bool isHyperbolic;
+  final bool isScientificNotation;
 
   CalculatorState({
     this.expression = '',
     this.result = '0',
     this.history = const [],
+    this.angleUnit = AngleUnit.deg,
+    this.isHyperbolic = false,
+    this.isScientificNotation = false,
   });
 
   CalculatorState copyWith({
     String? expression,
     String? result,
     List<String>? history,
+    AngleUnit? angleUnit,
+    bool? isHyperbolic,
+    bool? isScientificNotation,
   }) {
     return CalculatorState(
       expression: expression ?? this.expression,
       result: result ?? this.result,
       history: history ?? this.history,
+      angleUnit: angleUnit ?? this.angleUnit,
+      isHyperbolic: isHyperbolic ?? this.isHyperbolic,
+      isScientificNotation: isScientificNotation ?? this.isScientificNotation,
     );
   }
 }
@@ -46,6 +60,20 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
   Future<void> _saveHistory(List<String> newHistory) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(_historyKey, newHistory);
+  }
+
+  void toggleAngleUnit() {
+    final next = AngleUnit.values[(state.angleUnit.index + 1) % AngleUnit.values.length];
+    state = state.copyWith(angleUnit: next);
+  }
+
+  void toggleHyperbolic() {
+    state = state.copyWith(isHyperbolic: !state.isHyperbolic);
+  }
+
+  void toggleScientificNotation() {
+    state = state.copyWith(isScientificNotation: !state.isScientificNotation);
+    _evaluate(realtime: true);
   }
 
   void clearHistory() {
@@ -102,6 +130,19 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
           .replaceAll('÷', '/')
           .replaceAll('%', '/100');
 
+      // Adjust for Angle Units (DEG/GRAD to RAD conversion for math_expressions)
+      if (state.angleUnit == AngleUnit.deg) {
+        finalExpression = finalExpression
+            .replaceAll('sin(', 'sin(0.0174532925*')
+            .replaceAll('cos(', 'cos(0.0174532925*')
+            .replaceAll('tan(', 'tan(0.0174532925*');
+      } else if (state.angleUnit == AngleUnit.grad) {
+        finalExpression = finalExpression
+            .replaceAll('sin(', 'sin(0.0157079633*')
+            .replaceAll('cos(', 'cos(0.0157079633*')
+            .replaceAll('tan(', 'tan(0.0157079633*');
+      }
+
       Parser p = Parser();
       Expression exp = p.parse(finalExpression);
       ContextModel cm = ContextModel();
@@ -110,13 +151,16 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
       final decimalPlaces = _ref.read(appSettingsProvider).decimalPlaces;
       
       String resultStr;
-      if (eval == eval.toInt()) {
-        resultStr = eval.toInt().toString();
+      if (state.isScientificNotation) {
+        resultStr = eval.toStringAsExponential(decimalPlaces);
       } else {
-        resultStr = eval.toStringAsFixed(decimalPlaces);
-        // Remove trailing zeros and dot if not needed
-        if (resultStr.contains('.')) {
-          resultStr = resultStr.replaceAll(RegExp(r'0*$'), '').replaceAll(RegExp(r'\.$'), '');
+        if (eval == eval.toInt()) {
+          resultStr = eval.toInt().toString();
+        } else {
+          resultStr = eval.toStringAsFixed(decimalPlaces);
+          if (resultStr.contains('.')) {
+            resultStr = resultStr.replaceAll(RegExp(r'0*$'), '').replaceAll(RegExp(r'\.$'), '');
+          }
         }
       }
 

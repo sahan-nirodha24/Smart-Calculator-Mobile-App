@@ -18,7 +18,7 @@ class ScientificCalculatorPage extends ConsumerWidget {
           flex: 2,
           child: _buildDisplay(context, state),
         ),
-        _buildScientificControls(context),
+        _buildScientificControls(context, state, notifier),
         Expanded(
           flex: 6,
           child: _buildKeypad(context, notifier),
@@ -62,35 +62,64 @@ class ScientificCalculatorPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildScientificControls(BuildContext context) {
+  Widget _buildScientificControls(BuildContext context, CalculatorState state, CalculatorNotifier notifier) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          _controlButton(context, "DEG"),
-          _controlButton(context, "HYP"),
-          _controlButton(context, "F-E"),
+          _controlButton(
+            context,
+            state.angleUnit.name.toUpperCase(),
+            onPressed: () => notifier.toggleAngleUnit(),
+            isActive: true,
+          ),
+          _controlButton(
+            context,
+            "HYP",
+            onPressed: () => notifier.toggleHyperbolic(),
+            isActive: state.isHyperbolic,
+          ),
+          _controlButton(
+            context,
+            "F-E",
+            onPressed: () => notifier.toggleScientificNotation(),
+            isActive: state.isScientificNotation,
+          ),
         ],
       ),
     );
   }
 
-  Widget _controlButton(BuildContext context, String text) {
-    return TextButton(
-      onPressed: () {},
-      child: Text(text, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+  Widget _controlButton(BuildContext context, String text, {required VoidCallback onPressed, bool isActive = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          backgroundColor: isActive ? Theme.of(context).colorScheme.primary.withOpacity(0.1) : null,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: isActive ? Theme.of(context).colorScheme.primary : null,
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildKeypad(BuildContext context, CalculatorNotifier notifier) {
     final List<List<String>> keys = [
       ['2nd', 'π', 'e', 'C', '⌫'],
-      ['x²', '1/x', '|x|', 'exp', 'mod'],
-      ['√x', '(', ')', 'n!', '÷'],
-      ['xʸ', '7', '8', '9', '×'],
-      ['10ˣ', '4', '5', '6', '-'],
-      ['log', '1', '2', '3', '+'],
+      ['sin', 'cos', 'tan', 'exp', 'mod'],
+      ['x²', '1/x', '|x|', 'n!', '÷'],
+      ['√x', '(', ')', 'log', '×'],
+      ['xʸ', '7', '8', '9', '-'],
+      ['10ˣ', '4', '5', '6', '+'],
       ['ln', '+/-', '0', '.', '='],
     ];
 
@@ -110,6 +139,15 @@ class ScientificCalculatorPage extends ConsumerWidget {
                       if (key == '10ˣ') action = '10^';
                       if (key == 'π') action = '3.14159265';
                       if (key == 'e') action = '2.71828182';
+                      
+                      // Handle Trig & Hyperbolic
+                      if (['sin', 'cos', 'tan'].contains(key)) {
+                        final isHyp = notifier.state.isHyperbolic;
+                        action = isHyp ? '${key}h(' : '$key(';
+                      } else if (['log', 'ln'].contains(key)) {
+                        action = '$key(';
+                      }
+
                       notifier.onButtonPressed(action);
                     },
                   ),
