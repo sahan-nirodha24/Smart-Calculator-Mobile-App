@@ -60,9 +60,10 @@ class StandardCalculatorPage extends ConsumerWidget {
             reverse: true,
             child: Text(
               state.expression,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
                     letterSpacing: 1.2,
+                    fontSize: 18,
                   ),
             ),
           ),
@@ -72,8 +73,8 @@ class StandardCalculatorPage extends ConsumerWidget {
             child: Text(
               state.result,
               style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 56,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 68,
                   ),
             ),
           ),
@@ -97,7 +98,7 @@ class StandardCalculatorPage extends ConsumerWidget {
                 minimumSize: const Size(0, 32),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
               ),
-              child: Text(label, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+              child: Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
             ),
           );
         }).toList(),
@@ -147,8 +148,28 @@ class _CalculatorButton extends StatefulWidget {
   State<_CalculatorButton> createState() => _CalculatorButtonState();
 }
 
-class _CalculatorButtonState extends State<_CalculatorButton> {
+class _CalculatorButtonState extends State<_CalculatorButton> with SingleTickerProviderStateMixin {
   bool isHovered = false;
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 100),
+    );
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -158,50 +179,72 @@ class _CalculatorButtonState extends State<_CalculatorButton> {
     final isNumber = RegExp(r'[0-9]').hasMatch(widget.text) || widget.text == '.';
 
     Color bgColor;
+    List<Color>? gradientColors;
+    
     if (isPrimary) {
-      bgColor = Theme.of(context).colorScheme.primary;
+      gradientColors = [const Color(0xFF0078D4), const Color(0xFF2B88D8)];
+      bgColor = const Color(0xFF0078D4);
     } else if (isNumber) {
       bgColor = isDark ? const Color(0xFF3B3B3B) : Colors.white;
     } else {
-      bgColor = isDark ? const Color(0xFF323232) : const Color(0xFFF9F9F9);
+      bgColor = isDark ? const Color(0xFF323232) : const Color(0xFFF3F3F3);
     }
 
-    // Adjust color on hover
     if (isHovered) {
       bgColor = isPrimary 
           ? bgColor.withOpacity(0.9) 
-          : (isDark ? Colors.white.withOpacity(0.1) : Colors.black.withOpacity(0.05));
+          : (isDark ? Colors.white.withOpacity(0.12) : Colors.black.withOpacity(0.06));
     }
 
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),
       onExit: (_) => setState(() => isHovered = false),
       child: GestureDetector(
+        onTapDown: (_) => _controller.forward(),
+        onTapUp: (_) => _controller.reverse(),
+        onTapCancel: () => _controller.reverse(),
         onTap: widget.onTap,
-        child: Container(
-          margin: const EdgeInsets.all(2),
-          decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: BorderRadius.circular(5),
-            border: Border.all(
-              color: isDark ? Colors.white.withOpacity(0.05) : Colors.black.withOpacity(0.05),
-              width: 1,
+        child: ScaleTransition(
+          scale: _scaleAnimation,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            margin: const EdgeInsets.all(3),
+            decoration: BoxDecoration(
+              color: gradientColors == null ? bgColor : null,
+              gradient: gradientColors != null ? LinearGradient(
+                colors: gradientColors,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ) : null,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: isPrimary 
+                    ? Colors.white.withOpacity(0.2) 
+                    : (isDark ? Colors.white.withOpacity(0.05) : Colors.black.withOpacity(0.05)),
+                width: 1,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(isDark ? 0.2 : 0.05),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+                if (isPrimary)
+                  BoxShadow(
+                    color: const Color(0xFF0078D4).withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+              ],
             ),
-            boxShadow: isNumber ? [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 1,
-                offset: const Offset(0, 1),
-              )
-            ] : null,
-          ),
-          child: Center(
-            child: Text(
-              widget.text,
-              style: TextStyle(
-                fontSize: isNumber ? 20 : 16,
-                fontWeight: isPrimary || isNumber ? FontWeight.w500 : FontWeight.normal,
-                color: isPrimary ? Theme.of(context).colorScheme.onPrimary : null,
+            child: Center(
+              child: Text(
+                widget.text,
+                style: TextStyle(
+                  fontSize: isNumber ? 26 : 22,
+                  fontWeight: isPrimary || isNumber ? FontWeight.w600 : FontWeight.w500,
+                  color: isPrimary ? Colors.white : (isDark ? Colors.white.withOpacity(0.9) : Colors.black87),
+                ),
               ),
             ),
           ),

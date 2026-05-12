@@ -38,8 +38,9 @@ class ScientificCalculatorPage extends ConsumerWidget {
             reverse: true,
             child: Text(
               state.expression,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                    fontSize: 18,
                   ),
             ),
           ),
@@ -48,8 +49,9 @@ class ScientificCalculatorPage extends ConsumerWidget {
             fit: BoxFit.scaleDown,
             child: Text(
               state.result,
-              style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
+              style: Theme.of(context).textTheme.displayLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 52,
                   ),
             ),
           ),
@@ -75,7 +77,7 @@ class ScientificCalculatorPage extends ConsumerWidget {
   Widget _controlButton(BuildContext context, String text) {
     return TextButton(
       onPressed: () {},
-      child: Text(text, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+      child: Text(text, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
     );
   }
 
@@ -169,8 +171,8 @@ class _ScientificButtonState extends State<_ScientificButton> {
             child: Text(
               widget.text,
               style: TextStyle(
-                fontSize: isNumber ? 18 : 13,
-                fontWeight: isNumber || isPrimary ? FontWeight.w600 : FontWeight.normal,
+                fontSize: isNumber ? 22 : 16,
+                fontWeight: isNumber || isPrimary ? FontWeight.w600 : FontWeight.w500,
                 color: isPrimary ? Theme.of(context).colorScheme.onPrimary : null,
               ),
             ),

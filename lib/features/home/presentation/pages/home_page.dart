@@ -28,7 +28,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   Future<void> _toggleAlwaysOnTop() async {
     setState(() {
       isAlwaysOnTop = !isAlwaysOnTop;
-      // In mini mode, we force sidebar to be collapsed
       if (isAlwaysOnTop) isSidebarExpanded = false;
     });
 
@@ -41,14 +40,6 @@ class _HomePageState extends ConsumerState<HomePage> {
         await windowManager.setMinimumSize(const Size(400, 600));
         await windowManager.setSize(const Size(1000, 800));
       }
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(isAlwaysOnTop ? "Switched to Mini/Compact View" : "Returned to Normal View"),
-          duration: const Duration(milliseconds: 800),
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
     }
   }
 
@@ -221,26 +212,30 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
 
     return Container(
-      height: 60,
+      height: 50,
       padding: const EdgeInsets.symmetric(horizontal: 8),
       alignment: Alignment.centerLeft,
       child: Row(
         children: [
           if (isCompact)
             IconButton(
-              icon: const Icon(Icons.menu),
+              icon: const Icon(Icons.menu, size: 20),
               onPressed: () => _scaffoldKey.currentState?.openDrawer(),
             )
           else if (!isSidebarExpanded)
             const SizedBox(width: 50),
-          const SizedBox(width: 12),
+          const SizedBox(width: 8),
           Text(
             title,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600, fontSize: 18),
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600, 
+              fontSize: 14,
+              letterSpacing: 0.2,
+            ),
           ),
           const Spacer(),
-          IconButton(
-            icon: const Icon(Icons.history, size: 20),
+          _TitleBarButton(
+            icon: Icons.history,
             tooltip: "History",
             onPressed: () {
               showModalBottomSheet(
@@ -250,8 +245,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                 builder: (context) => Container(
                   height: MediaQuery.of(context).size.height * 0.7,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                    color: Theme.of(context).colorScheme.surface.withOpacity(0.9),
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
                   ),
                   padding: const EdgeInsets.all(16.0),
                   child: const HistoryPanel(),
@@ -259,15 +254,13 @@ class _HomePageState extends ConsumerState<HomePage> {
               );
             },
           ),
-          IconButton(
-            icon: Icon(
-              isAlwaysOnTop ? Icons.picture_in_picture_alt : Icons.picture_in_picture_alt_outlined,
-              size: 20,
-              color: isAlwaysOnTop ? Theme.of(context).colorScheme.primary : null,
-            ),
+          _TitleBarButton(
+            icon: isAlwaysOnTop ? Icons.picture_in_picture_alt : Icons.picture_in_picture_alt_outlined,
             tooltip: isAlwaysOnTop ? "Exit Keep on Top" : "Keep on Top",
             onPressed: _toggleAlwaysOnTop,
+            isActive: isAlwaysOnTop,
           ),
+          const SizedBox(width: 8),
         ],
       ),
     );
@@ -303,8 +296,63 @@ class _HomePageState extends ConsumerState<HomePage> {
     }
 
     return AnimatedSwitcher(
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 300),
+      switchInCurve: Curves.easeOutCubic,
+      switchOutCurve: Curves.easeInCubic,
+      transitionBuilder: (Widget child, Animation<double> animation) {
+        return FadeTransition(
+          opacity: animation,
+          child: SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0.02, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
+        );
+      },
       child: child,
+    );
+  }
+}
+
+class _TitleBarButton extends StatelessWidget {
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback onPressed;
+  final bool isActive;
+
+  const _TitleBarButton({
+    required this.icon,
+    required this.tooltip,
+    required this.onPressed,
+    this.isActive = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2.0),
+      child: Tooltip(
+        message: tooltip,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(4),
+          child: Container(
+            width: 34,
+            height: 34,
+            decoration: BoxDecoration(
+              color: isActive ? Theme.of(context).colorScheme.primary.withOpacity(0.1) : Colors.transparent,
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: Icon(
+              icon, 
+              size: 18, 
+              color: isActive ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
