@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../standard_calculator/presentation/providers/calculator_provider.dart';
+import '../providers/scientific_provider.dart';
 import '../../../settings/presentation/providers/settings_provider.dart';
 
 class ScientificCalculatorPage extends ConsumerWidget {
@@ -9,8 +9,8 @@ class ScientificCalculatorPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(calculatorProvider);
-    final notifier = ref.read(calculatorProvider.notifier);
+    final state = ref.watch(scientificProvider);
+    final notifier = ref.read(scientificProvider.notifier);
 
     return Column(
       children: [
@@ -21,13 +21,13 @@ class ScientificCalculatorPage extends ConsumerWidget {
         _buildScientificControls(context, state, notifier),
         Expanded(
           flex: 6,
-          child: _buildKeypad(context, notifier),
+          child: _buildKeypad(context, state, notifier),
         ),
       ],
     );
   }
 
-  Widget _buildDisplay(BuildContext context, CalculatorState state) {
+  Widget _buildDisplay(BuildContext context, ScientificState state) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       alignment: Alignment.bottomRight,
@@ -62,7 +62,7 @@ class ScientificCalculatorPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildScientificControls(BuildContext context, CalculatorState state, CalculatorNotifier notifier) {
+  Widget _buildScientificControls(BuildContext context, ScientificState state, ScientificNotifier notifier) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Row(
@@ -112,7 +112,7 @@ class ScientificCalculatorPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildKeypad(BuildContext context, CalculatorNotifier notifier) {
+  Widget _buildKeypad(BuildContext context, ScientificState state, ScientificNotifier notifier) {
     final List<List<String>> keys = [
       ['2nd', 'π', 'e', 'C', '⌫'],
       ['sin', 'cos', 'tan', 'exp', 'mod'],
@@ -140,10 +140,8 @@ class ScientificCalculatorPage extends ConsumerWidget {
                       if (key == 'π') action = '3.14159265';
                       if (key == 'e') action = '2.71828182';
                       
-                      // Handle Trig & Hyperbolic
                       if (['sin', 'cos', 'tan'].contains(key)) {
-                        final isHyp = notifier.state.isHyperbolic;
-                        action = isHyp ? '${key}h(' : '$key(';
+                        action = state.isHyperbolic ? '${key}h(' : '$key(';
                       } else if (['log', 'ln'].contains(key)) {
                         action = '$key(';
                       }

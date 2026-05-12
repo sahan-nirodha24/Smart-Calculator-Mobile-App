@@ -21,6 +21,12 @@ class ThemeNotifier extends StateNotifier<ThemeMode> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_key, mode.name);
   }
+
+  Future<void> reset() async {
+    state = ThemeMode.system;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_key);
+  }
 }
 
 final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>((ref) {

@@ -101,6 +101,14 @@ class SettingsPage extends ConsumerWidget {
                   icon: Icons.delete_outline,
                   onTap: () => _showClearHistoryDialog(context, ref),
                 ),
+                const Divider(height: 1, indent: 56),
+                _buildSettingTile(
+                  context,
+                  title: "Reset to Defaults",
+                  subtitle: "Restore all settings to original values",
+                  icon: Icons.restore,
+                  onTap: () => _showResetDefaultsDialog(context, ref),
+                ),
               ],
             ),
           ),
@@ -183,6 +191,33 @@ class SettingsPage extends ConsumerWidget {
       subtitle: Text(subtitle, style: TextStyle(fontSize: 13, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6))),
       trailing: trailing,
       onTap: onTap,
+    );
+  }
+
+  void _showResetDefaultsDialog(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Reset Settings?"),
+        content: const Text("This will restore all settings (Theme, Haptic, Precision) to their original default values."),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
+          TextButton(
+            onPressed: () {
+              ref.read(appSettingsProvider.notifier).resetToDefaults();
+              ref.read(themeProvider.notifier).reset();
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Settings restored to defaults"),
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
+            },
+            child: const Text("Reset", style: TextStyle(color: Colors.orange, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
     );
   }
 

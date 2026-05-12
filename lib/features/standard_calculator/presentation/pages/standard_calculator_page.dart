@@ -25,7 +25,7 @@ class StandardCalculatorPage extends ConsumerWidget {
                     flex: 2,
                     child: _buildDisplay(context, state),
                   ),
-                  _buildMemoryButtons(context),
+                  _buildMemoryButtons(context, state, notifier),
                   const SizedBox(height: 8),
                   Expanded(
                     flex: 6,
@@ -85,20 +85,34 @@ class StandardCalculatorPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildMemoryButtons(BuildContext context) {
-    final labels = ['MC', 'MR', 'M+', 'M-', 'MS', 'M⌄'];
+  Widget _buildMemoryButtons(BuildContext context, CalculatorState state, CalculatorNotifier notifier) {
+    final Map<String, VoidCallback> memoryOps = {
+      'MC': notifier.memoryClear,
+      'MR': notifier.memoryRecall,
+      'M+': notifier.memoryAdd,
+      'M-': notifier.memorySubtract,
+      'MS': notifier.memoryStore,
+      'M⌄': () {},
+    };
+
+    final labels = memoryOps.keys.toList();
+    final hasMemory = state.memory != 0;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: labels.map((label) {
+          final isEnabled = (label == 'MC' || label == 'MR') ? hasMemory : true;
+
           return Expanded(
             child: TextButton(
-              onPressed: () {},
+              onPressed: isEnabled ? memoryOps[label] : null,
               style: TextButton.styleFrom(
                 padding: EdgeInsets.zero,
                 minimumSize: const Size(0, 32),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                foregroundColor: isEnabled ? null : Colors.grey.withOpacity(0.5),
               ),
               child: Text(label, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold)),
             ),

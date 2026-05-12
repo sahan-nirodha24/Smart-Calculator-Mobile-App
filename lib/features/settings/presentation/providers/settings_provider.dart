@@ -56,6 +56,16 @@ class SettingsNotifier extends StateNotifier<AppSettings> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('keep_screen_on', value);
   }
+
+  Future<void> resetToDefaults() async {
+    state = AppSettings();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('haptic_feedback');
+    await prefs.remove('decimal_places');
+    await prefs.remove('keep_screen_on');
+    // Note: Theme is handled by themeProvider, but we can clear it here too if needed
+    await prefs.remove('theme_mode');
+  }
 }
 
 final appSettingsProvider = StateNotifierProvider<SettingsNotifier, AppSettings>((ref) {

@@ -2,44 +2,53 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../settings/presentation/providers/settings_provider.dart';
+import '../../../../core/providers/navigation_provider.dart';
 
-class CalculatorState {
+enum AngleUnit { deg, rad, grad }
+
+class ScientificState {
   final String expression;
   final String result;
   final List<String> history;
-  final double memory;
+  final AngleUnit angleUnit;
+  final bool isHyperbolic;
+  final bool isScientificNotation;
 
-  CalculatorState({
+  ScientificState({
     this.expression = '',
     this.result = '0',
     this.history = const [],
-    this.memory = 0,
+    this.angleUnit = AngleUnit.deg,
+    this.isHyperbolic = false,
+    this.isScientificNotation = false,
   });
 
-  CalculatorState copyWith({
+  ScientificState copyWith({
     String? expression,
     String? result,
     List<String>? history,
-    double? memory,
+    AngleUnit? angleUnit,
+    bool? isHyperbolic,
+    bool? isScientificNotation,
   }) {
-    return CalculatorState(
+    return ScientificState(
       expression: expression ?? this.expression,
       result: result ?? this.result,
       history: history ?? this.history,
-      memory: memory ?? this.memory,
+      angleUnit: angleUnit ?? this.angleUnit,
+      isHyperbolic: isHyperbolic ?? this.isHyperbolic,
+      isScientificNotation: isScientificNotation ?? this.isScientificNotation,
     );
   }
 }
 
-class CalculatorNotifier extends StateNotifier<CalculatorState> {
+class ScientificNotifier extends StateNotifier<ScientificState> {
   final Ref _ref;
-  CalculatorNotifier(this._ref) : super(CalculatorState()) {
+  ScientificNotifier(this._ref) : super(ScientificState()) {
     _loadHistory();
-    _loadMemory();
   }
 
-  static const _historyKey = 'calculator_history';
-  static const _memoryKey = 'calculator_memory';
+  static const _historyKey = 'scientific_history';
 
   Future<void> _loadHistory() async {
     final prefs = await SharedPreferences.getInstance();
@@ -49,52 +58,23 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
     }
   }
 
-  Future<void> _loadMemory() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedMemory = prefs.getDouble(_memoryKey);
-    if (savedMemory != null) {
-      state = state.copyWith(memory: savedMemory);
-    }
-  }
-
   Future<void> _saveHistory(List<String> newHistory) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(_historyKey, newHistory);
   }
 
-  Future<void> _saveMemory(double value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_memoryKey, value);
+  void toggleAngleUnit() {
+    final next = AngleUnit.values[(state.angleUnit.index + 1) % AngleUnit.values.length];
+    state = state.copyWith(angleUnit: next);
   }
 
-  void memoryClear() {
-    state = state.copyWith(memory: 0);
-    _saveMemory(0);
+  void toggleHyperbolic() {
+    state = state.copyWith(isHyperbolic: !state.isHyperbolic);
   }
 
-  void memoryRecall() {
-    String memStr = state.memory % 1 == 0 ? state.memory.toInt().toString() : state.memory.toString();
-    state = state.copyWith(expression: memStr, result: '');
-  }
-
-  void memoryAdd() {
-    double currentVal = double.tryParse(state.result.isEmpty ? state.expression : state.result) ?? 0;
-    double newMem = state.memory + currentVal;
-    state = state.copyWith(memory: newMem);
-    _saveMemory(newMem);
-  }
-
-  void memorySubtract() {
-    double currentVal = double.tryParse(state.result.isEmpty ? state.expression : state.result) ?? 0;
-    double newMem = state.memory - currentVal;
-    state = state.copyWith(memory: newMem);
-    _saveMemory(newMem);
-  }
-
-  void memoryStore() {
-    double currentVal = double.tryParse(state.result.isEmpty ? state.expression : state.result) ?? 0;
-    state = state.copyWith(memory: currentVal);
-    _saveMemory(currentVal);
+  void toggleScientificNotation() {
+    state = state.copyWith(isScientificNotation: !state.isScientificNotation);
+    _evaluate(realtime: true);
   }
 
   void clearHistory() {
@@ -111,22 +91,6 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
       if (state.expression.isNotEmpty) {
         state = state.copyWith(expression: state.expression.substring(0, state.expression.length - 1));
       }
-    } else if (text == '1/x') {
-      state = state.copyWith(expression: '1/(${state.expression})');
-      _evaluate(realtime: true);
-    } else if (text == 'x²') {
-      state = state.copyWith(expression: '(${state.expression})^2');
-      _evaluate(realtime: true);
-    } else if (text == '√x') {
-      state = state.copyWith(expression: 'sqrt(${state.expression})');
-      _evaluate(realtime: true);
-    } else if (text == '+/-') {
-      if (state.expression.startsWith('-')) {
-        state = state.copyWith(expression: state.expression.substring(1));
-      } else {
-        state = state.copyWith(expression: '-${state.expression}');
-      }
-      _evaluate(realtime: true);
     } else if (text == '=') {
       _evaluate();
     } else {
@@ -148,6 +112,18 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
           .replaceAll('÷', '/')
           .replaceAll('%', '/100');
 
+      if (state.angleUnit == AngleUnit.deg) {
+        finalExpression = finalExpression
+            .replaceAll('sin(', 'sin(0.0174532925*')
+            .replaceAll('cos(', 'cos(0.0174532925*')
+            .replaceAll('tan(', 'tan(0.0174532925*');
+      } else if (state.angleUnit == AngleUnit.grad) {
+        finalExpression = finalExpression
+            .replaceAll('sin(', 'sin(0.0157079633*')
+            .replaceAll('cos(', 'cos(0.0157079633*')
+            .replaceAll('tan(', 'tan(0.0157079633*');
+      }
+
       Parser p = Parser();
       Expression exp = p.parse(finalExpression);
       ContextModel cm = ContextModel();
@@ -156,12 +132,16 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
       final decimalPlaces = _ref.read(appSettingsProvider).decimalPlaces;
       
       String resultStr;
-      if (eval == eval.toInt()) {
-        resultStr = eval.toInt().toString();
+      if (state.isScientificNotation) {
+        resultStr = eval.toStringAsExponential(decimalPlaces);
       } else {
-        resultStr = eval.toStringAsFixed(decimalPlaces);
-        if (resultStr.contains('.')) {
-          resultStr = resultStr.replaceAll(RegExp(r'0*$'), '').replaceAll(RegExp(r'\.$'), '');
+        if (eval == eval.toInt()) {
+          resultStr = eval.toInt().toString();
+        } else {
+          resultStr = eval.toStringAsFixed(decimalPlaces);
+          if (resultStr.contains('.')) {
+            resultStr = resultStr.replaceAll(RegExp(r'0*$'), '').replaceAll(RegExp(r'\.$'), '');
+          }
         }
       }
 
@@ -184,6 +164,6 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
   }
 }
 
-final calculatorProvider = StateNotifierProvider<CalculatorNotifier, CalculatorState>((ref) {
-  return CalculatorNotifier(ref);
+final scientificProvider = StateNotifierProvider<ScientificNotifier, ScientificState>((ref) {
+  return ScientificNotifier(ref);
 });
