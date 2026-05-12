@@ -6,8 +6,12 @@ A modern, high-performance, and visually stunning Calculator application built w
 
 ## ✨ Key Features
 
+### 🏠 Interactive Dashboard
+*   **Central Hub**: A beautiful landing page with glass-style interactive cards for quick access to all modes.
+*   **Visual Categories**: Neatly organized sections for Calculators and Conversion Tools.
+
 ### 📐 Advanced Calculation Modes
-*   **Standard Calculator**: Clean interface for basic arithmetic with full memory support (MC, MR, M+, M-, MS).
+*   **Standard Calculator**: High-precision arithmetic with full memory support (MC, MR, M+, M-, MS).
 *   **Scientific Mode**: Support for complex trigonometry, logs, powers, and mathematical constants.
 *   **Graphing Calculator**: Real-time function plotting with interactive zoom and pan.
 *   **Programmer Suite**: Seamlessly convert between Binary, Octal, Decimal, and Hexadecimal.
@@ -24,13 +28,20 @@ A modern, high-performance, and visually stunning Calculator application built w
 
 ## 🎨 Premium UI/UX Highlights
 
-*   **Glassmorphism & Acrylic Effects**: A premium translucent UI with soft borders and "Electric Blue" gradients.
+*   **Glassmorphism & Acrylic Effects**: A premium translucent UI with soft borders and vibrant "Electric Blue" gradients.
 *   **Motion Design**: 
     *   **Fade & Slide Navigation**: Ultra-smooth transitions between different calculator modes.
-    *   **Tactile Feedback**: Interactive scale animations when pressing buttons.
+    *   **Tactile Feedback**: Interactive scale animations and **Haptic Feedback** (vibration) on button presses.
 *   **Enhanced Readability**: Large, bold typography using Noto Sans for high visibility and professional look.
-*   **Windows 11 Fluent Design**: Responsive layout that adapts from a desktop sidebar to a mobile-friendly compact view.
-*   **Mini Mode**: Desktop "Always on Top" support for multitasking.
+*   **Adaptive & Responsive**: A clean layout that adapts from a desktop sidebar to a mobile-friendly compact view.
+
+---
+
+## ⚙️ Advanced Settings
+*   **Haptic Control**: Toggle tactile vibration feedback on or off.
+*   **Precision Control**: Configure decimal places (2 to 5 digits) for all calculations.
+*   **Theme Management**: Seamlessly switch between Light, Dark, or System themes.
+*   **Unified History**: Clear all calculation logs across all modes with a single click.
 
 ---
 
@@ -41,7 +52,7 @@ A modern, high-performance, and visually stunning Calculator application built w
 *   **Typography**: [Google Fonts (Noto Sans)](https://pub.dev/packages/google_fonts)
 *   **Math Engine**: [math_expressions](https://pub.dev/packages/math_expressions)
 *   **Persistence**: [shared_preferences](https://pub.dev/packages/shared_preferences)
-*   **Desktop Support**: `window_manager`, `flutter_acrylic`
+*   **Networking**: [http](https://pub.dev/packages/http) for live currency rates.
 
 ---
 
@@ -49,7 +60,8 @@ A modern, high-performance, and visually stunning Calculator application built w
 
 ### Prerequisites
 *   Flutter SDK (Stable)
-*   Android Studio / VS Code / Windows PC
+*   Android Studio / VS Code
+*   Internet Connection (for real-time currency updates)
 
 ### Quick Installation
 
@@ -72,11 +84,11 @@ A modern, high-performance, and visually stunning Calculator application built w
 
 ## 📸 Screenshots
 
-| Standard (Premium UI) | Scientific Mode | Graphing Engine |
+| Dashboard (Menu) | Standard (Premium UI) | Scientific Mode |
 | :---: | :---: | :---: |
 | *Add Image Link* | *Add Image Link* | *Add Image Link* |
 
-| Currency Converter | Unit Converter | Date Calculator |
+| Currency Converter | Unit Converter | Settings Page |
 | :---: | :---: | :---: |
 | *Add Image Link* | *Add Image Link* | *Add Image Link* |
 
