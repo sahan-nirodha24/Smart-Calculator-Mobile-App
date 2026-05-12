@@ -12,7 +12,12 @@ A modern, high-performance, and visually stunning Calculator application built w
 
 ### 📐 Advanced Calculation Modes
 *   **Standard Calculator**: High-precision arithmetic with full memory support (MC, MR, M+, M-, MS).
-*   **Scientific Mode**: Support for complex trigonometry, logs, powers, and mathematical constants.
+*   **Scientific Suite**:
+    *   **Advanced Trigonometry**: Full support for `sin`, `cos`, and `tan`.
+    *   **Hyperbolic Functions**: Toggle `HYP` mode for `sinh`, `cosh`, and `tanh`.
+    *   **Multi-Angle Support**: Seamlessly switch between **DEG**, **RAD**, and **GRAD**.
+    *   **Scientific Notation**: Quick **F-E** toggle for fixed-to-exponential formatting.
+    *   **Math Powerhouse**: Logs, powers (`xʸ`), roots, factorials, and constants (π, e).
 *   **Graphing Calculator**: Real-time function plotting with interactive zoom and pan.
 *   **Programmer Suite**: Seamlessly convert between Binary, Octal, Decimal, and Hexadecimal.
 
@@ -85,7 +90,7 @@ A modern, high-performance, and visually stunning Calculator application built w
 ## 📸 Screenshots
 
 | Dashboard (Menu) | Standard (Premium UI) | Scientific Mode |
-| :---: | :---: | :---: |
+| :---: | : :---: | :---: |
 | *Add Image Link* | *Add Image Link* | *Add Image Link* |
 
 | Currency Converter | Unit Converter | Settings Page |
