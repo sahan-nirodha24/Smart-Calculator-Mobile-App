@@ -89,13 +89,36 @@ A modern, high-performance, and visually stunning Calculator application built w
 
 ## 📸 Screenshots
 
-| Dashboard (Menu) | Standard (Premium UI) | Scientific Mode |
-| :---: | : :---: | :---: |
-| *Add Image Link* | *Add Image Link* | *Add Image Link* |
+**Smart Calculator Home Page**
+<img width="1918" height="1019" alt="Image" src="https://github.com/user-attachments/assets/2729fd4c-dbe8-43d6-85aa-9a44f5f85e5c" />
 
-| Currency Converter | Unit Converter | Settings Page |
-| :---: | :---: | :---: |
-| *Add Image Link* | *Add Image Link* | *Add Image Link* |
+**Smart Calculator Side Navigation Bar**
+<img width="1918" height="1019" alt="Image" src="https://github.com/user-attachments/assets/d98651df-1344-43b6-ad5c-0a0c1b95a86d" />
+
+**Smart Calculator Standard Calculator Page**
+<img width="1918" height="1019" alt="Image" src="https://github.com/user-attachments/assets/8fdf2b69-1e4b-4f45-a484-26a355f1f17b" />
+
+**Smart Calculator Scientific Calculator Page**
+<img width="1918" height="1019" alt="Image" src="https://github.com/user-attachments/assets/e5883ed3-3852-4272-ba7d-addd82a932ae" />
+
+**Smart Calculator Graphing Calculator Page**
+<img width="1918" height="1019" alt="Image" src="https://github.com/user-attachments/assets/a92ba19f-398d-4b9b-ac45-606a6190f8d7" />
+
+**Smart Calculator Programmer Calculator Page**
+<img width="1918" height="1019" alt="Image" src="https://github.com/user-attachments/assets/d51be9ed-8eab-4358-9510-e726a7effc9f" />
+
+**Smart Calculator Date Calculation Page**
+<img width="1918" height="1019" alt="Image" src="https://github.com/user-attachments/assets/f50698d7-e15f-4012-a5b0-5694d72d61ee" />
+
+**Smart Calculator Currency Converter Page**
+<img width="1918" height="1019" alt="Image" src="https://github.com/user-attachments/assets/2ac8484e-f981-42f4-9cb9-3b50be0fa18b" />
+
+**Smart Calculator Unit Converter Page**
+<img width="1918" height="1019" alt="Image" src="https://github.com/user-attachments/assets/ba1bc20e-3552-4919-a1d1-bcdb10d9217e" />
+
+**Smart Calculator Settings Page**
+<img width="1918" height="1019" alt="Image" src="https://github.com/user-attachments/assets/15087c1c-c93e-402f-8422-1bd3591f1f05" />
+
 
 ---
 
@@ -106,4 +129,4 @@ Found a bug? Want a feature? Feel free to open an issue or submit a pull request
 This project is licensed under the MIT License.
 
 ---
-Developed with ❤️ by [Sahan](https://github.com/YOUR_GITHUB_USERNAME)
+Developed with ❤️ by Sahan Nirodha
