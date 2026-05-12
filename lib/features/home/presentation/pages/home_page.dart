@@ -12,6 +12,7 @@ import '../../../programmer_calculator/presentation/pages/programmer_calculator_
 import '../../../graphing_calculator/presentation/pages/graphing_calculator_page.dart';
 import '../../../settings/presentation/pages/settings_page.dart';
 import '../../../standard_calculator/presentation/widgets/history_panel.dart';
+import 'dashboard_page.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -22,26 +23,7 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   bool isSidebarExpanded = false;
-  bool isAlwaysOnTop = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  Future<void> _toggleAlwaysOnTop() async {
-    setState(() {
-      isAlwaysOnTop = !isAlwaysOnTop;
-      if (isAlwaysOnTop) isSidebarExpanded = false;
-    });
-
-    if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-      await windowManager.setAlwaysOnTop(isAlwaysOnTop);
-      if (isAlwaysOnTop) {
-        await windowManager.setMinimumSize(const Size(320, 500));
-        await windowManager.setSize(const Size(320, 500));
-      } else {
-        await windowManager.setMinimumSize(const Size(400, 600));
-        await windowManager.setSize(const Size(1000, 800));
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +69,14 @@ class _HomePageState extends ConsumerState<HomePage> {
       child: Column(
         children: [
           if (asDrawer) const SizedBox(height: 50) else const SizedBox(height: 40),
+          _SidebarItem(
+            icon: Icons.dashboard_outlined,
+            activeIcon: Icons.dashboard,
+            label: "Dashboard",
+            isSelected: currentMode == CalculatorMode.dashboard,
+            isExpanded: isSidebarExpanded || asDrawer,
+            onTap: () => _handleNavigation(CalculatorMode.dashboard, asDrawer),
+          ),
           if (!asDrawer)
             _SidebarItem(
               icon: Icons.menu,
@@ -201,6 +191,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget _buildTitleBar(CalculatorMode mode, bool isCompact) {
     String title = "";
     switch (mode) {
+      case CalculatorMode.dashboard: title = "Dashboard"; break;
       case CalculatorMode.standard: title = "Standard"; break;
       case CalculatorMode.scientific: title = "Scientific"; break;
       case CalculatorMode.graphing: title = "Graphing"; break;
@@ -234,32 +225,28 @@ class _HomePageState extends ConsumerState<HomePage> {
             ),
           ),
           const Spacer(),
-          _TitleBarButton(
-            icon: Icons.history,
-            tooltip: "History",
-            onPressed: () {
-              showModalBottomSheet(
-                context: context,
-                isScrollControlled: true,
-                backgroundColor: Colors.transparent,
-                builder: (context) => Container(
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface.withOpacity(0.9),
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+          if (mode != CalculatorMode.dashboard) ...[
+            _TitleBarButton(
+              icon: Icons.history,
+              tooltip: "History",
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  backgroundColor: Colors.transparent,
+                  builder: (context) => Container(
+                    height: MediaQuery.of(context).size.height * 0.7,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface.withOpacity(0.9),
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+                    ),
+                    padding: const EdgeInsets.all(16.0),
+                    child: const HistoryPanel(),
                   ),
-                  padding: const EdgeInsets.all(16.0),
-                  child: const HistoryPanel(),
-                ),
-              );
-            },
-          ),
-          _TitleBarButton(
-            icon: isAlwaysOnTop ? Icons.picture_in_picture_alt : Icons.picture_in_picture_alt_outlined,
-            tooltip: isAlwaysOnTop ? "Exit Keep on Top" : "Keep on Top",
-            onPressed: _toggleAlwaysOnTop,
-            isActive: isAlwaysOnTop,
-          ),
+                );
+              },
+            ),
+          ],
           const SizedBox(width: 8),
         ],
       ),
@@ -269,6 +256,9 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget _buildContent(CalculatorMode mode) {
     Widget child;
     switch (mode) {
+      case CalculatorMode.dashboard:
+        child = const DashboardPage(key: ValueKey("dashboard"));
+        break;
       case CalculatorMode.standard:
         child = StandardCalculatorPage(key: const ValueKey("standard"));
         break;

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../settings/presentation/providers/settings_provider.dart';
 
 class CalculatorState {
   final String expression;
@@ -27,7 +28,8 @@ class CalculatorState {
 }
 
 class CalculatorNotifier extends StateNotifier<CalculatorState> {
-  CalculatorNotifier() : super(CalculatorState()) {
+  final Ref _ref;
+  CalculatorNotifier(this._ref) : super(CalculatorState()) {
     _loadHistory();
   }
 
@@ -44,6 +46,11 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
   Future<void> _saveHistory(List<String> newHistory) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setStringList(_historyKey, newHistory);
+  }
+
+  void clearHistory() {
+    state = state.copyWith(history: []);
+    _saveHistory([]);
   }
 
   void onButtonPressed(String text) {
@@ -100,11 +107,17 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
       ContextModel cm = ContextModel();
       double eval = exp.evaluate(EvaluationType.REAL, cm);
 
+      final decimalPlaces = _ref.read(appSettingsProvider).decimalPlaces;
+      
       String resultStr;
       if (eval == eval.toInt()) {
         resultStr = eval.toInt().toString();
       } else {
-        resultStr = eval.toString();
+        resultStr = eval.toStringAsFixed(decimalPlaces);
+        // Remove trailing zeros and dot if not needed
+        if (resultStr.contains('.')) {
+          resultStr = resultStr.replaceAll(RegExp(r'0*$'), '').replaceAll(RegExp(r'\.$'), '');
+        }
       }
 
       if (realtime) {
@@ -127,5 +140,5 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
 }
 
 final calculatorProvider = StateNotifierProvider<CalculatorNotifier, CalculatorState>((ref) {
-  return CalculatorNotifier();
+  return CalculatorNotifier(ref);
 });

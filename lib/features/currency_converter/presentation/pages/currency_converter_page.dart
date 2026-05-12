@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../settings/presentation/providers/settings_provider.dart';
 
-class CurrencyConverterPage extends StatefulWidget {
+class CurrencyConverterPage extends ConsumerStatefulWidget {
   const CurrencyConverterPage({super.key});
 
   @override
-  State<CurrencyConverterPage> createState() => _CurrencyConverterPageState();
+  ConsumerState<CurrencyConverterPage> createState() => _CurrencyConverterPageState();
 }
 
-class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
+class _CurrencyConverterPageState extends ConsumerState<CurrencyConverterPage> {
   String fromCurrency = "USD";
   String toCurrency = "LKR";
   String inputString = "1";
@@ -91,6 +94,11 @@ class _CurrencyConverterPageState extends State<CurrencyConverterPage> {
   }
 
   void _onKeyPress(String key) {
+    final settings = ref.read(appSettingsProvider);
+    if (settings.hapticFeedback) {
+      HapticFeedback.lightImpact();
+    }
+
     setState(() {
       if (key == "⌫") {
         if (inputString.length > 1) {

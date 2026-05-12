@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../standard_calculator/presentation/providers/calculator_provider.dart';
+import '../../../settings/presentation/providers/settings_provider.dart';
 
 class ScientificCalculatorPage extends ConsumerWidget {
   const ScientificCalculatorPage({super.key});
@@ -121,18 +123,26 @@ class ScientificCalculatorPage extends ConsumerWidget {
   }
 }
 
-class _ScientificButton extends StatefulWidget {
+class _ScientificButton extends ConsumerStatefulWidget {
   final String text;
   final VoidCallback onTap;
 
   const _ScientificButton({required this.text, required this.onTap});
 
   @override
-  State<_ScientificButton> createState() => _ScientificButtonState();
+  ConsumerState<_ScientificButton> createState() => _ScientificButtonState();
 }
 
-class _ScientificButtonState extends State<_ScientificButton> {
+class _ScientificButtonState extends ConsumerState<_ScientificButton> {
   bool isHovered = false;
+
+  void _handleTap() {
+    final settings = ref.read(appSettingsProvider);
+    if (settings.hapticFeedback) {
+      HapticFeedback.lightImpact();
+    }
+    widget.onTap();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +167,7 @@ class _ScientificButtonState extends State<_ScientificButton> {
       onEnter: (_) => setState(() => isHovered = true),
       onExit: (_) => setState(() => isHovered = false),
       child: GestureDetector(
-        onTap: widget.onTap,
+        onTap: _handleTap,
         child: Container(
           margin: const EdgeInsets.all(2),
           decoration: BoxDecoration(

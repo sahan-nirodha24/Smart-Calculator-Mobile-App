@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum CalculatorMode {
+  dashboard,
   standard,
   scientific,
   graphing,
@@ -11,4 +12,4 @@ enum CalculatorMode {
   settings
 }
 
-final navigationProvider = StateProvider<CalculatorMode>((ref) => CalculatorMode.standard);
+final navigationProvider = StateProvider<CalculatorMode>((ref) => CalculatorMode.dashboard);

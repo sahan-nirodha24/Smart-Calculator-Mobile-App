@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/programmer_provider.dart';
+import '../../../settings/presentation/providers/settings_provider.dart';
 import '../../../standard_calculator/presentation/widgets/history_panel.dart';
 
 class ProgrammerCalculatorPage extends ConsumerStatefulWidget {
@@ -16,6 +18,11 @@ class _ProgrammerCalculatorPageState extends ConsumerState<ProgrammerCalculatorP
   BigInt? _buffer;
 
   void _onKeyPress(String key, ProgrammerState state, ProgrammerNotifier notifier) {
+    final settings = ref.read(appSettingsProvider);
+    if (settings.hapticFeedback) {
+      HapticFeedback.lightImpact();
+    }
+
     setState(() {
       BigInt currentValue = state.currentValue;
       NumberBase activeBase = state.activeBase;

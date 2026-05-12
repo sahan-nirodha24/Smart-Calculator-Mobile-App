@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/calculator_provider.dart';
+import '../../../settings/presentation/providers/settings_provider.dart';
 import '../widgets/history_panel.dart';
 
 class StandardCalculatorPage extends ConsumerWidget {
@@ -138,17 +140,17 @@ class StandardCalculatorPage extends ConsumerWidget {
   }
 }
 
-class _CalculatorButton extends StatefulWidget {
+class _CalculatorButton extends ConsumerStatefulWidget {
   final String text;
   final VoidCallback onTap;
 
   const _CalculatorButton({required this.text, required this.onTap});
 
   @override
-  State<_CalculatorButton> createState() => _CalculatorButtonState();
+  ConsumerState<_CalculatorButton> createState() => _CalculatorButtonState();
 }
 
-class _CalculatorButtonState extends State<_CalculatorButton> with SingleTickerProviderStateMixin {
+class _CalculatorButtonState extends ConsumerState<_CalculatorButton> with SingleTickerProviderStateMixin {
   bool isHovered = false;
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
@@ -169,6 +171,14 @@ class _CalculatorButtonState extends State<_CalculatorButton> with SingleTickerP
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  void _handleTap() {
+    final settings = ref.read(appSettingsProvider);
+    if (settings.hapticFeedback) {
+      HapticFeedback.lightImpact();
+    }
+    widget.onTap();
   }
 
   @override
@@ -203,7 +213,7 @@ class _CalculatorButtonState extends State<_CalculatorButton> with SingleTickerP
         onTapDown: (_) => _controller.forward(),
         onTapUp: (_) => _controller.reverse(),
         onTapCancel: () => _controller.reverse(),
-        onTap: widget.onTap,
+        onTap: _handleTap,
         child: ScaleTransition(
           scale: _scaleAnimation,
           child: AnimatedContainer(
