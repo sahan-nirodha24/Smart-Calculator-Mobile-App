@@ -17,7 +17,7 @@ A modern, high-performance, and visually stunning Calculator application built w
     *   **Hyperbolic Functions**: Toggle `HYP` mode for `sinh`, `cosh`, and `tanh`.
     *   **Multi-Angle Support**: Seamlessly switch between **DEG**, **RAD**, and **GRAD**.
     *   **Scientific Notation**: Quick **F-E** toggle for fixed-to-exponential formatting.
-    *   **Math Powerhouse**: Logs, powers (`xʸ`), roots, factorials, and constants (π, e).
+    *   **Independent Logic**: Separate calculation states for Standard and Scientific modes.
 *   **Graphing Calculator**: Real-time function plotting with interactive zoom and pan.
 *   **Programmer Suite**: Seamlessly convert between Binary, Octal, Decimal, and Hexadecimal.
 
@@ -47,6 +47,7 @@ A modern, high-performance, and visually stunning Calculator application built w
 *   **Precision Control**: Configure decimal places (2 to 5 digits) for all calculations.
 *   **Theme Management**: Seamlessly switch between Light, Dark, or System themes.
 *   **Unified History**: Clear all calculation logs across all modes with a single click.
+*   **Reset to Defaults**: Restore all app settings to their original values instantly.
 
 ---
 
