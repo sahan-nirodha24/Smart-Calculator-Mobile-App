@@ -14,8 +14,7 @@ A modern, feature-rich, and premium Calculator application built with Flutter, i
 
 ### 🔄 Conversion Tools
 *   **Unit Converter**: Comprehensive support for:
-    *   Length, Weight, Temperature, Volume, Area.
-    *   Speed, Time, Energy, Pressure, and Data Storage.
+    *   Length, Weight, Temperature, Volume, Area, Speed, Time, Energy, Pressure, and Data Storage.
 *   **Currency Converter**: 
     *   Real-time exchange rates (Live API integration).
     *   Offline mode with cached rates.
@@ -33,8 +32,8 @@ A modern, feature-rich, and premium Calculator application built with Flutter, i
 
 *   **Windows 11 Fluent Design**: Modern look with rounded corners and clean typography.
 *   **Acrylic/Mica Effects**: Premium translucent backgrounds for Windows desktop mode.
-*   **Adaptive & Responsive**: Seamlessly switches between a desktop sidebar layout and a mobile-friendly drawer/compact view.
-*   **Mini Mode (Keep on Top)**: Desktop users can switch to a mini-window that stays on top of other applications.
+*   **Adaptive & Responsive**: Seamlessly switches between a desktop sidebar layout and a mobile-friendly drawer.
+*   **Mini Mode (Keep on Top)**: Desktop users can switch to a mini-window that stays on top.
 *   **Dark & Light Mode**: Full theme customization with system sync.
 *   **Calculation History**: Persistent history storage using `shared_preferences`.
 
@@ -47,7 +46,7 @@ A modern, feature-rich, and premium Calculator application built with Flutter, i
 *   **Charts/Graphs**: [fl_chart](https://pub.dev/packages/fl_chart)
 *   **Math Engine**: [math_expressions](https://pub.dev/packages/math_expressions)
 *   **Local Storage**: [shared_preferences](https://pub.dev/packages/shared_preferences)
-*   **Desktop Enhancements**: `window_manager`, `flutter_acrylic`
+*   **Desktop UI**: `window_manager`, `flutter_acrylic`
 
 ---
 
@@ -62,7 +61,7 @@ A modern, feature-rich, and premium Calculator application built with Flutter, i
 
 1.  **Clone the repository**:
     ```bash
-    git clone https://github.com/your-username/smart_calculator.git
+    git clone https://github.com/YOUR_GITHUB_USERNAME/smart_calculator.git
     ```
 
 2.  **Navigate to the project directory**:
@@ -83,7 +82,14 @@ A modern, feature-rich, and premium Calculator application built with Flutter, i
 ---
 
 ## 📸 Screenshots
-*(Add your app screenshots here to make the README even better!)*
+
+| Standard Calculator | Scientific Mode | Graphing |
+| :---: | :---: | :---: |
+| *Add Image Link* | *Add Image Link* | *Add Image Link* |
+
+| Unit Converter | Currency Converter | Date Calculator |
+| :---: | :---: | :---: |
+| *Add Image Link* | *Add Image Link* | *Add Image Link* |
 
 ---
 
@@ -91,7 +97,7 @@ A modern, feature-rich, and premium Calculator application built with Flutter, i
 Contributions are welcome! If you find any bugs or have feature requests, please open an issue or submit a pull request.
 
 ## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ---
-Developed with ❤️ by [Your Name/Handle]
+Developed with ❤️ by Sahan Nirodha
