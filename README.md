@@ -118,7 +118,7 @@ A modern, high-performance, and visually stunning Calculator application built w
 <img width="1918" height="1019" alt="Image" src="https://github.com/user-attachments/assets/ba1bc20e-3552-4919-a1d1-bcdb10d9217e" />
 
 **Smart Calculator Settings Page**
-<img width="1918" height="1019" alt="Image" src="https://github.com/user-attachments/assets/15087c1c-c93e-402f-8422-1bd3591f1f05" />
+<img width="1918" height="1019" alt="Image" src="https://github.com/user-attachments/assets/674fa508-91f8-40d0-98b9-46083ffbe0f5" />
 
 
 ---
