@@ -1,41 +1,36 @@
-# Smart Calculator - Windows 11 Style 📱🔢
+# Smart Calculator - Premium Windows 11 Edition 📱🔢
 
-A modern, feature-rich, and premium Calculator application built with Flutter, inspired by the Windows 11 Fluent Design. This app is designed to be a complete productivity suite, combining standard calculations with advanced mathematical and conversion tools.
-
----
-
-## ✨ Features
-
-### 📐 Calculation Modes
-*   **Standard Calculator**: Basic arithmetic, percentages, decimal support, and full memory functions (MC, MR, M+, M-, MS).
-*   **Scientific Calculator**: Trigonometric functions, logarithms, powers, roots, factorials, and constants (π, e).
-*   **Graphing Calculator**: Real-time equation plotting, zoom/pan support, and coordinate tracing for functions like `sin(x)`, `x^2`, etc.
-*   **Programmer Calculator**: Seamless conversion between Binary, Octal, Decimal, and Hexadecimal.
-
-### 🔄 Conversion Tools
-*   **Unit Converter**: Comprehensive support for:
-    *   Length, Weight, Temperature, Volume, Area, Speed, Time, Energy, Pressure, and Data Storage.
-*   **Currency Converter**: 
-    *   Real-time exchange rates (Live API integration).
-    *   Offline mode with cached rates.
-    *   Support for 160+ global currencies including LKR.
-
-### 📅 Date Calculation
-*   Calculate the exact difference between two dates.
-*   Add or subtract days, months, and years.
-*   **Age Calculator**: Find your exact age and the countdown to your next birthday.
-*   **Business Days**: Calculate working days (Mon-Fri) between dates.
+A modern, high-performance, and visually stunning Calculator application built with Flutter. Inspired by the **Windows 11 Fluent Design System**, this app features a premium **Glassmorphism** UI, smooth motion effects, and a complete suite of productivity tools.
 
 ---
 
-## 🎨 UI/UX Highlights
+## ✨ Key Features
 
-*   **Windows 11 Fluent Design**: Modern look with rounded corners and clean typography.
-*   **Acrylic/Mica Effects**: Premium translucent backgrounds for Windows desktop mode.
-*   **Adaptive & Responsive**: Seamlessly switches between a desktop sidebar layout and a mobile-friendly drawer.
-*   **Mini Mode (Keep on Top)**: Desktop users can switch to a mini-window that stays on top.
-*   **Dark & Light Mode**: Full theme customization with system sync.
-*   **Calculation History**: Persistent history storage using `shared_preferences`.
+### 📐 Advanced Calculation Modes
+*   **Standard Calculator**: Clean interface for basic arithmetic with full memory support (MC, MR, M+, M-, MS).
+*   **Scientific Mode**: Support for complex trigonometry, logs, powers, and mathematical constants.
+*   **Graphing Calculator**: Real-time function plotting with interactive zoom and pan.
+*   **Programmer Suite**: Seamlessly convert between Binary, Octal, Decimal, and Hexadecimal.
+
+### 🔄 Smart Conversion Tools
+*   **Unit Converter**: 10+ categories including Length, Weight, Speed, and Data Storage.
+*   **Currency Converter**: Live exchange rates for 160+ currencies (including LKR) with offline caching.
+
+### 📅 Date & Age Tools
+*   Exact age calculation with "countdown to next birthday".
+*   Date difference and business day calculations.
+
+---
+
+## 🎨 Premium UI/UX Highlights
+
+*   **Glassmorphism & Acrylic Effects**: A premium translucent UI with soft borders and "Electric Blue" gradients.
+*   **Motion Design**: 
+    *   **Fade & Slide Navigation**: Ultra-smooth transitions between different calculator modes.
+    *   **Tactile Feedback**: Interactive scale animations when pressing buttons.
+*   **Enhanced Readability**: Large, bold typography using Noto Sans for high visibility and professional look.
+*   **Windows 11 Fluent Design**: Responsive layout that adapts from a desktop sidebar to a mobile-friendly compact view.
+*   **Mini Mode**: Desktop "Always on Top" support for multitasking.
 
 ---
 
@@ -43,38 +38,32 @@ A modern, feature-rich, and premium Calculator application built with Flutter, i
 
 *   **Framework**: [Flutter](https://flutter.dev)
 *   **State Management**: [Riverpod](https://riverpod.dev)
-*   **Charts/Graphs**: [fl_chart](https://pub.dev/packages/fl_chart)
+*   **Typography**: [Google Fonts (Noto Sans)](https://pub.dev/packages/google_fonts)
 *   **Math Engine**: [math_expressions](https://pub.dev/packages/math_expressions)
-*   **Local Storage**: [shared_preferences](https://pub.dev/packages/shared_preferences)
-*   **Desktop UI**: `window_manager`, `flutter_acrylic`
+*   **Persistence**: [shared_preferences](https://pub.dev/packages/shared_preferences)
+*   **Desktop Support**: `window_manager`, `flutter_acrylic`
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-*   Flutter SDK (Stable channel)
-*   Android Studio / VS Code
-*   Active Internet Connection (for Currency rates)
+*   Flutter SDK (Stable)
+*   Android Studio / VS Code / Windows PC
 
-### Installation
+### Quick Installation
 
 1.  **Clone the repository**:
     ```bash
     git clone https://github.com/YOUR_GITHUB_USERNAME/smart_calculator.git
     ```
 
-2.  **Navigate to the project directory**:
-    ```bash
-    cd smart_calculator
-    ```
-
-3.  **Install dependencies**:
+2.  **Install dependencies**:
     ```bash
     flutter pub get
     ```
 
-4.  **Run the application**:
+3.  **Run the app**:
     ```bash
     flutter run
     ```
@@ -83,21 +72,21 @@ A modern, feature-rich, and premium Calculator application built with Flutter, i
 
 ## 📸 Screenshots
 
-| Standard Calculator | Scientific Mode | Graphing |
+| Standard (Premium UI) | Scientific Mode | Graphing Engine |
 | :---: | :---: | :---: |
 | *Add Image Link* | *Add Image Link* | *Add Image Link* |
 
-| Unit Converter | Currency Converter | Date Calculator |
+| Currency Converter | Unit Converter | Date Calculator |
 | :---: | :---: | :---: |
 | *Add Image Link* | *Add Image Link* | *Add Image Link* |
 
 ---
 
 ## 🤝 Contributing
-Contributions are welcome! If you find any bugs or have feature requests, please open an issue or submit a pull request.
+Found a bug? Want a feature? Feel free to open an issue or submit a pull request!
 
 ## 📄 License
 This project is licensed under the MIT License.
 
 ---
-Developed with ❤️ by Sahan Nirodha
+Developed with ❤️ by [Sahan](https://github.com/YOUR_GITHUB_USERNAME)
