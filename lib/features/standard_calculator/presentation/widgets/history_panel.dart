@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/providers/navigation_provider.dart';
 import '../providers/calculator_provider.dart';
+import '../../../scientific_calculator/presentation/providers/scientific_provider.dart';
+import '../../../graphing_calculator/presentation/providers/graphing_provider.dart';
 import '../../../programmer_calculator/presentation/providers/programmer_provider.dart';
 import '../../../date_calculator/presentation/providers/date_history_provider.dart';
 
@@ -14,8 +16,11 @@ class HistoryPanel extends ConsumerWidget {
 
     switch (mode) {
       case CalculatorMode.standard:
-      case CalculatorMode.scientific:
         return _buildStandardHistory(context, ref);
+      case CalculatorMode.scientific:
+        return _buildScientificHistory(context, ref);
+      case CalculatorMode.graphing:
+        return _buildGraphingHistory(context, ref);
       case CalculatorMode.programmer:
         return _buildProgrammerHistory(context, ref);
       case CalculatorMode.dateCalculation:
@@ -31,7 +36,27 @@ class HistoryPanel extends ConsumerWidget {
       context: context,
       title: "Standard History",
       history: state.history,
-      onClear: () => ref.read(calculatorProvider.notifier).onButtonPressed('CLEAR_HISTORY'),
+      onClear: () => ref.read(calculatorProvider.notifier).clearHistory(),
+    );
+  }
+
+  Widget _buildScientificHistory(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(scientificProvider);
+    return _buildHistoryList(
+      context: context,
+      title: "Scientific History",
+      history: state.history,
+      onClear: () => ref.read(scientificProvider.notifier).clearHistory(),
+    );
+  }
+
+  Widget _buildGraphingHistory(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(graphingProvider);
+    return _buildHistoryList(
+      context: context,
+      title: "Graphing History",
+      history: state.history,
+      onClear: () => ref.read(graphingProvider.notifier).clearHistory(),
     );
   }
 
@@ -75,6 +100,7 @@ class HistoryPanel extends ConsumerWidget {
               IconButton(
                 icon: const Icon(Icons.delete_outline, size: 20),
                 onPressed: onClear,
+                tooltip: "Clear history",
               ),
           ],
         ),
