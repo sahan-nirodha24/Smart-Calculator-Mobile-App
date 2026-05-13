@@ -98,7 +98,11 @@ class CalculatorNotifier extends StateNotifier<CalculatorState> {
   }
 
   void clearHistory() {
-    state = state.copyWith(history: []);
+    state = state.copyWith(
+      history: [],
+      expression: '',
+      result: '0',
+    );
     _saveHistory([]);
   }
 

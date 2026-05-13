@@ -62,7 +62,10 @@ class ProgrammerNotifier extends StateNotifier<ProgrammerState> {
   }
 
   void clearHistory() {
-    state = state.copyWith(history: []);
+    state = state.copyWith(
+      history: [],
+      currentValue: BigInt.zero,
+    );
     _saveHistory([]);
   }
 

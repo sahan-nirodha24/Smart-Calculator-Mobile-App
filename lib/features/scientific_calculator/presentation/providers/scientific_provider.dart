@@ -78,7 +78,11 @@ class ScientificNotifier extends StateNotifier<ScientificState> {
   }
 
   void clearHistory() {
-    state = state.copyWith(history: []);
+    state = state.copyWith(
+      history: [],
+      expression: '',
+      result: '0',
+    );
     _saveHistory([]);
   }
 

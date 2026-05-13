@@ -51,7 +51,10 @@ class GraphingNotifier extends StateNotifier<GraphingState> {
   }
 
   void clearHistory() async {
-    state = state.copyWith(history: []);
+    state = state.copyWith(
+      history: [],
+      currentEquation: 'x^2',
+    );
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_key);
   }
