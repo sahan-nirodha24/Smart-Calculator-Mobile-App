@@ -225,7 +225,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             ),
           ),
           const Spacer(),
-          if (mode != CalculatorMode.dashboard) ...[
+          if (mode != CalculatorMode.dashboard && mode != CalculatorMode.settings) ...[
             _TitleBarButton(
               icon: Icons.history,
               tooltip: "History",
