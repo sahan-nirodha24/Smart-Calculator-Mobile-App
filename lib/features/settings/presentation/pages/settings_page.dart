@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/providers/theme_provider.dart';
 import '../providers/settings_provider.dart';
 import '../../../standard_calculator/presentation/providers/calculator_provider.dart';
+import '../../../scientific_calculator/presentation/providers/scientific_provider.dart';
 import '../../../programmer_calculator/presentation/providers/programmer_provider.dart';
 import '../../../graphing_calculator/presentation/providers/graphing_provider.dart';
 import '../../../date_calculator/presentation/providers/date_history_provider.dart';
@@ -231,8 +232,9 @@ class SettingsPage extends ConsumerWidget {
           TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
           TextButton(
             onPressed: () {
-              // Clear history for all features
+              // Clear history for all features globally
               ref.read(calculatorProvider.notifier).clearHistory();
+              ref.read(scientificProvider.notifier).clearHistory();
               ref.read(programmerProvider.notifier).clearHistory();
               ref.read(graphingProvider.notifier).clearHistory();
               ref.read(dateHistoryProvider.notifier).clearHistory();
