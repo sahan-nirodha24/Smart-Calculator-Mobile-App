@@ -1,6 +1,23 @@
-# Smart Calculator - Premium Windows 11 Edition 📱🔢
+# 🚀 Smart Calculator - Premium Windows 11 Edition
 
-A modern, high-performance, and visually stunning Calculator application built with Flutter. Inspired by the **Windows 11 Fluent Design System**, this app features a premium **Glassmorphism** UI, smooth motion effects, and a complete suite of productivity tools.
+[![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+A modern, high-performance, and visually stunning Calculator application built with Flutter. Inspired by the **Windows 11 Fluent Design System**, this app features a premium **Glassmorphism** UI, smooth motion effects, and a complete suite of productivity tools for both power users and everyday calculations.
+
+---
+
+## 📑 Table of Contents
+- [✨ Key Features](#-key-features)
+- [🎨 UI/UX Highlights](#-uiux-highlights)
+- [🏗 Architecture & Folder Structure](#-architecture--folder-structure)
+- [🛠 Tech Stack](#-tech-stack)
+- [🚀 Getting Started](#-getting-started)
+- [📸 Screenshots](#-screenshots)
+- [⚙️ Advanced Settings](#-advanced-settings)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
 ---
 
@@ -9,65 +26,78 @@ A modern, high-performance, and visually stunning Calculator application built w
 ### 🏠 Interactive Dashboard
 *   **Central Hub**: A beautiful landing page with glass-style interactive cards for quick access to all modes.
 *   **Visual Categories**: Neatly organized sections for Calculators and Conversion Tools.
+*   **Intuitive Navigation**: Seamless sidebar integration for quick context switching without losing state.
 
 ### 📐 Advanced Calculation Modes
-*   **Standard Calculator**: High-precision arithmetic with full memory support (MC, MR, M+, M-, MS).
+*   **Standard Calculator**: High-precision arithmetic with full memory support (MC, MR, M+, M-, MS) and real-time expression parsing.
 *   **Scientific Suite**:
-    *   **Advanced Trigonometry**: Full support for `sin`, `cos`, and `tan`.
-    *   **Hyperbolic Functions**: Toggle `HYP` mode for `sinh`, `cosh`, and `tanh`.
-    *   **Multi-Angle Support**: Seamlessly switch between **DEG**, **RAD**, and **GRAD**.
-    *   **Scientific Notation**: Quick **F-E** toggle for fixed-to-exponential formatting.
-    *   **Independent Logic**: Separate calculation states for Standard and Scientific modes.
-*   **Graphing Calculator**: Real-time function plotting with interactive zoom and pan.
-*   **Programmer Suite**: Seamlessly convert between Binary, Octal, Decimal, and Hexadecimal.
+    *   **Advanced Trigonometry**: Comprehensive support for `sin`, `cos`, `tan`, and their inverses.
+    *   **Hyperbolic Functions**: Dedicated `HYP` mode for `sinh`, `cosh`, and `tanh`.
+    *   **Multi-Angle Support**: Toggle between **DEG**, **RAD**, and **GRAD** with immediate conversion.
+    *   **Scientific Notation**: One-tap **F-E** toggle for fixed-to-exponential formatting.
+*   **Graphing Calculator**: Real-time function plotting with interactive zoom and pan capabilities, powered by high-performance rendering.
+*   **Programmer Suite**: Seamlessly convert between Binary, Octal, Decimal, and Hexadecimal with support for large integer calculations.
 
 ### 🔄 Smart Conversion Tools
-*   **Unit Converter**: 10+ categories including Length, Weight, Speed, and Data Storage.
-*   **Currency Converter**: Live exchange rates for 160+ currencies (including LKR) with offline caching.
+*   **Unit Converter**: 10+ categories including Length, Weight, Speed, Temperature, and Data Storage.
+*   **Currency Converter**: Live exchange rates for 160+ currencies with offline caching for reliable use without internet.
 
 ### 📅 Date & Age Tools
-*   Exact age calculation with "countdown to next birthday".
-*   Date difference and business day calculations.
+*   **Age Calculator**: Get your exact age in years, months, and days, including a "countdown to your next birthday."
+*   **Date Difference**: Calculate the exact duration between two dates for project planning or event tracking.
 
 ---
 
 ## 🎨 Premium UI/UX Highlights
 
-*   **Glassmorphism & Acrylic Effects**: A premium translucent UI with soft borders and vibrant "Electric Blue" gradients.
-*   **Motion Design**: 
+*   **Glassmorphism & Acrylic Effects**: A premium translucent UI with soft borders and vibrant "Electric Blue" gradients, utilizing `flutter_acrylic` for deep system integration.
+*   **Fluent Motion Design**: 
     *   **Fade & Slide Navigation**: Ultra-smooth transitions between different calculator modes.
-    *   **Tactile Feedback**: Interactive scale animations and **Haptic Feedback** (vibration) on button presses.
-*   **Enhanced Readability**: Large, bold typography using Noto Sans for high visibility and professional look.
-*   **Adaptive & Responsive**: A clean layout that adapts from a desktop sidebar to a mobile-friendly compact view.
+    *   **Tactile Feedback**: Interactive scale animations and **Haptic Feedback** (vibration) on every interaction for a premium feel.
+*   **Enhanced Readability**: Large, bold typography using **Noto Sans** for high visibility and a professional, modern aesthetic.
+*   **Adaptive & Responsive**: A clean layout that adapts seamlessly from a desktop sidebar to a mobile-friendly compact view.
 
 ---
 
-## ⚙️ Advanced Settings
-*   **Haptic Control**: Toggle tactile vibration feedback on or off.
-*   **Precision Control**: Configure decimal places (2 to 5 digits) for all calculations.
-*   **Theme Management**: Seamlessly switch between Light, Dark, or System themes.
-*   **Unified History**: Clear all calculation logs across all modes with a single click.
-*   **Reset to Defaults**: Restore all app settings to their original values instantly.
+## 🏗 Architecture & Folder Structure
+
+The project follows a **Feature-First Architecture** combined with **Riverpod** for robust state management. This ensures scalability, testability, and clean code separation.
+
+```text
+lib/
+├── core/               # Shared utilities, themes, and common widgets
+│   ├── providers/      # App-wide state (Theme, Settings)
+│   ├── theme/          # Fluent Design UI definitions
+│   └── utils/          # Formatting and math helper functions
+├── features/           # Modular functionality
+│   ├── home/           # Dashboard and Navigation
+│   ├── standard/       # Standard Calculator logic & UI
+│   ├── scientific/     # Scientific Calculator engine
+│   ├── currency/       # Real-time exchange rate logic
+│   ├── ...             # Other independent modules
+└── main.dart           # App entry and window configuration
+```
 
 ---
 
 ## 🛠 Tech Stack
 
-*   **Framework**: [Flutter](https://flutter.dev)
+*   **Framework**: [Flutter](https://flutter.dev) (v3.x)
 *   **State Management**: [Riverpod](https://riverpod.dev)
+*   **UI Foundation**: [Fluent Design System](https://github.com/bdlukaa/fluent_ui)
 *   **Typography**: [Google Fonts (Noto Sans)](https://pub.dev/packages/google_fonts)
 *   **Math Engine**: [math_expressions](https://pub.dev/packages/math_expressions)
-*   **Persistence**: [shared_preferences](https://pub.dev/packages/shared_preferences)
-*   **Networking**: [http](https://pub.dev/packages/http) for live currency rates.
+*   **Visuals**: [flutter_acrylic](https://pub.dev/packages/flutter_acrylic) & [window_manager](https://pub.dev/packages/window_manager)
+*   **Charts**: [fl_chart](https://pub.dev/packages/fl_chart) for Graphing Calculator
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-*   Flutter SDK (Stable)
+*   Flutter SDK (Latest Stable)
 *   Android Studio / VS Code
-*   Internet Connection (for real-time currency updates)
+*   Active Internet Connection (for real-time currency updates)
 
 ### Quick Installation
 
@@ -123,11 +153,28 @@ A modern, high-performance, and visually stunning Calculator application built w
 
 ---
 
+## ⚙️ Advanced Settings
+*   **Haptic Control**: Toggle tactile vibration feedback on or off.
+*   **Precision Control**: Configure decimal places (2 to 5 digits) for all calculations.
+*   **Theme Management**: Seamlessly switch between Light, Dark, or System themes.
+*   **Unified History**: Clear all calculation logs across all modes with a single click.
+*   **Reset to Defaults**: Restore all app settings to their original values instantly.
+
+---
+
 ## 🤝 Contributing
-Found a bug? Want a feature? Feel free to open an issue or submit a pull request!
+Contributions are welcome! If you find a bug or have a feature request, please open an issue or submit a pull request. 
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
 
 ## 📄 License
 This project is licensed under the MIT License.
 
 ---
-Developed with ❤️ by Sahan Nirodha
+**Developed with ❤️ by [Sahan Nirodha](https://github.com/SahanNirodha)**
